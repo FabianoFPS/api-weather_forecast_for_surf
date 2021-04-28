@@ -1,4 +1,5 @@
 import { AxiosStatic } from 'axios';
+import config, { IConfig } from 'config';
 
 import { InternalError } from '@src/util/errors/InternalError';
 
@@ -43,10 +44,14 @@ export class ClientRequestError extends InternalError {
 export class StormGlassResponseError extends InternalError {
   constructor(message: string) {
     const internalMessage =
-    'Unexpected error returned by the StormGlass service';
+      'Unexpected error returned by the StormGlass service';
     super(`${internalMessage}: ${message}`);
   }
 }
+
+const stormGlassResourceConfig: IConfig = config.get(
+  'App.resources.StormGlass'
+);
 
 export class StormGlass {
   readonly stormGlassAPIParams =
@@ -58,23 +63,25 @@ export class StormGlass {
   public async fetchPoints(lat: number, lng: number): Promise<ForecastPoint[]> {
     try {
       const response = await this.request.get<StormGlassForecastResponse>(
-        `https://api.stormglass.io/v2/weather/point?
+        `${stormGlassResourceConfig.get('apiUrl')}/weather/point?
         lat=${lat}&
         lng=${lng}&
         params=${this.stormGlassAPIParams}&
         source=${this.stormGlassAPISource}`,
         {
           headers: {
-            Authorization: 'fake-token',
+            Authorization: stormGlassResourceConfig.get('apiToken'),
           },
         }
       );
 
       return this.normalizeResponse(response.data);
     } catch (err) {
-      if(err.response && err.response.status)
+      if (err.response && err.response.status)
         throw new StormGlassResponseError(
-          `Error: ${JSON.stringify(err.response.data)} Code: ${err.response.status}`
+          `Error: ${JSON.stringify(err.response.data)} Code: ${
+            err.response.status
+          }`
         );
 
       throw new ClientRequestError(err.message);
