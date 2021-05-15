@@ -61,6 +61,6 @@ export class Forecast {
       }
     }
 
-  return forecastByTime;
+    return forecastByTime;
   }
 }
