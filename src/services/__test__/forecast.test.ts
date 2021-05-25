@@ -1,7 +1,8 @@
 import { StormGlass } from '@src/clients/StormGlass';
+import { Beach, BeachPosition } from '@src/models/beach';
 import stormGlassNormalized3HoursFixture
   from '@test/fixtures/stormglass_normalized_response_3_hours.json';
-import { Beach, BeachPosition, Forecast } from '../Forecast';
+import { Forecast } from '../Forecast';
 
 jest.mock('@src/clients/StormGlass');
 
@@ -14,7 +15,6 @@ describe('Forecast Services', () => {
         lng: 151.289824,
         name: 'Manly',
         position: BeachPosition.E,
-        user: 'some-id'
       }
     ];
     const expectedResponse = [
