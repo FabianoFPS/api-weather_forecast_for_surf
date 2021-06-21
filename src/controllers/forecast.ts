@@ -11,6 +11,7 @@ export class ForecastController {
   public async getForecastForLoggedUser(_: Request, res: Response): Promise<void> {
     try {
       const beaches = await Beach.find({});
+
       const forecastData = await forecast.processForecastBeaches(beaches);
       res.status(200).send(forecastData);
 

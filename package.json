@@ -14,7 +14,8 @@
     "style:check": "prettier --check src/**/*.ts test/**/*.ts",
     "style:fix": "prettier --write src/**/*.ts test/**/*.ts",
     "test:functional": "jest --projects ./test --runInBand",
-    "test:unit": "jest"
+    "test:unit": "jest",
+    "test": "yarn test:unit && yarn test:functional"
   },
   "repository": {
     "type": "git",

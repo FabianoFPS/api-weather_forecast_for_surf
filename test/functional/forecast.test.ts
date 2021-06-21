@@ -20,26 +20,26 @@ describe('Beach forecast functional tests', () => {
 
   it('should return a forecast with just a few times', async () => {
     // nock.recorder.rec();
-    nock('https://api.stormglass.io:443', {"encodedQueryParams":true})
-    .get('/v2/weather/point')
-    .query({"%0A%20%20%20%20%20%20%20%20lat":"-33.792726","%0A%20%20%20%20%20%20%20%20lng":"151.289824","%0A%20%20%20%20%20%20%20%20params":"swellDirection%2CswellHeight%2CswellPeriod%2CwaveDirection%2CwaveHeight%2CwindDirection%2CwindSpeed","%0A%20%20%20%20%20%20%20%20source":"noaa"})
-    .reply(200, stormGlassWeather3HoursFixture);
+    // nock('https://api.stormglass.io:443', {"encodedQueryParams":true})
+    // .get('/v2/weather/point')
+    // .query({"%0A%20%20%20%20%20%20%20%20lat":"-33.792726","%0A%20%20%20%20%20%20%20%20lng":"151.289824","%0A%20%20%20%20%20%20%20%20params":"swellDirection%2CswellHeight%2CswellPeriod%2CwaveDirection%2CwaveHeight%2CwindDirection%2CwindSpeed","%0A%20%20%20%20%20%20%20%20source":"noaa"})
+    // .reply(200, stormGlassWeather3HoursFixture);
 
-    // nock('https://api.stormglass.io:443', {
-    //   encodedQueryParams: true,
-    //   reqheaders: {
-    //     Authorization: (): boolean => true,
-    //   },
-    // })
-    //   .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
-    //   .get('/v2/weather/point')
-    //   .query({
-    //     lat: '-33.792726',
-    //     lng: '151.289824',
-    //     params: /(.*)/,
-    //     source: 'noaa',
-    //   })
-    //   .reply(200, stormGlassWeather3HoursFixture);
+    nock('https://api.stormglass.io:443', {
+      encodedQueryParams: true,
+      reqheaders: {
+        Authorization: (): boolean => true,
+      },
+    })
+      .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
+      .get('/v2/weather/point')
+      .query({
+        lat: '-33.792726',
+        lng: '151.289824',
+        params: /(.*)/,
+        source: 'noaa',
+      })
+      .reply(200, stormGlassWeather3HoursFixture);
 
     const { body, status } = await global.testRequest.get('/forecast');
     expect(status).toBe(200);
