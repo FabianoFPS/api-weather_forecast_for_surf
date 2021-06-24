@@ -1,4 +1,4 @@
-import { Beach, BeachPosition } from "@src/models/beach";
+import { Beach, BeachPosition } from '@src/models/beach';
 import nock from 'nock';
 
 import stormGlassWeather3HoursFixture from '@test/fixtures/stormglass_weather_3_hours.json';
@@ -47,10 +47,16 @@ describe('Beach forecast functional tests', () => {
   });
 
   it('should return 500 if something goes wrong during the processing', async () => {
-    nock('https://api.stormglass.io:443', {"encodedQueryParams":true})
-    .get('/v2/weather/point')
-    .query({"%0A%20%20%20%20%20%20%20%20lat":"-33.792726","%0A%20%20%20%20%20%20%20%20lng":"151.289824","%0A%20%20%20%20%20%20%20%20params":"swellDirection%2CswellHeight%2CswellPeriod%2CwaveDirection%2CwaveHeight%2CwindDirection%2CwindSpeed","%0A%20%20%20%20%20%20%20%20source":"noaa"})
-    .replyWithError('Something went wrong');
+    nock('https://api.stormglass.io:443', { encodedQueryParams: true })
+      .get('/v2/weather/point')
+      .query({
+        '%0A%20%20%20%20%20%20%20%20lat': '-33.792726',
+        '%0A%20%20%20%20%20%20%20%20lng': '151.289824',
+        '%0A%20%20%20%20%20%20%20%20params':
+          'swellDirection%2CswellHeight%2CswellPeriod%2CwaveDirection%2CwaveHeight%2CwindDirection%2CwindSpeed',
+        '%0A%20%20%20%20%20%20%20%20source': 'noaa',
+      })
+      .replyWithError('Something went wrong');
 
     // nock('https://api.stormglass.io:443', {
     //   encodedQueryParams: true,
