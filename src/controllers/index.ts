@@ -9,7 +9,7 @@ export abstract class BaseController {
     error: Error | mongoose.Error.ValidationError
   ): void {
     if (error instanceof mongoose.Error.ValidationError) {
-      const clientErrors = this.handleClientErrors(error)
+      const clientErrors = this.handleClientErrors(error);
       const { code, error: errorMessage } = clientErrors;
       res.status(code).send({ code, error: errorMessage });
     } else {
@@ -17,7 +17,9 @@ export abstract class BaseController {
     }
   }
 
-  private handleClientErrors(error: mongoose.Error.ValidationError): { code: number; error: string } {
+  private handleClientErrors(
+    error: mongoose.Error.ValidationError
+  ): { code: number; error: string } {
     const duplicateKindErros = Object.values(error.errors).filter(
       (err) => err.kind === CUSTOM_VALIDATION.DUPLICATE
     );
