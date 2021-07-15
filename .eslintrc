@@ -1,13 +1,21 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "ignorePatterns": ["*.js"],
+  "ignorePatterns": [
+    "*.js"
+  ],
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "prettier"
   ],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
-  ]
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "prettier/prettier": "warn"
+  }
 }
