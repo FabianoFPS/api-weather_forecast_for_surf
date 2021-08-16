@@ -18,7 +18,7 @@ describe('Beaches functional tests', () => {
     token = AuthService.generateToken(user.toJSON());
   });
 
-  describe('When create a beach', () => {
+  describe('When create a new beach', () => {
     it('should create a beach with success', async () => {
       const newBeach = {
         lat: -33.792726,

@@ -10,6 +10,8 @@ export function authMiddleware(
   try {
     const decoded = AuthService.decodeToken(token as string);
     req.decoded = decoded;
+    // if (typeof token === 'string') req.decoded = AuthService.decodeToken(token);
+
     next();
   } catch (error) {
     res.status?.(401).send({ code: 401, error: error.message });

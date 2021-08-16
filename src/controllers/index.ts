@@ -9,8 +9,7 @@ export abstract class BaseController {
     error: Error | mongoose.Error.ValidationError
   ): void {
     if (error instanceof mongoose.Error.ValidationError) {
-      const clientErrors = this.handleClientErrors(error);
-      const { code, error: errorMessage } = clientErrors;
+      const { code, error: errorMessage } = this.handleClientErrors(error);
       res.status(code).send({ code, error: errorMessage });
     } else {
       res.status(500).send({ code: 500, error: 'Someting went wrong' });
