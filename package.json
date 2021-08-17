@@ -7,7 +7,7 @@
     "dokcer:create-mongodb": "docker run --name surf_forecast -p 27017:27017 -d -t mongo",
     "docker:start-mongodb": "docker start surf_forecast",
     "build": "tsc",
-    "start": "yarn build && node dist/src/index.js",
+    "start": "node dist/src/index.js",
     "start:dev": "ts-node-dev src/index.ts",
     "lint": "eslint ./src ./test --ext .ts",
     "lint:fix": "eslint ./src ./test --ext .ts --fix",
@@ -17,6 +17,7 @@
     "test:unit": "jest",
     "test": "yarn test:unit && yarn test:functional"
   },
+  "engines": {"node": "14"},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FabianoFPS/api-weather_forecast_for_surf.git"
