@@ -4,12 +4,12 @@
       "StormGlass": {
         "apiToken": "do-not-hard-code"
       }
+    },
+    "database": {
+      "mongoUrl": "mongodb://localhost:27017/surf-forecast-test"
+    },
+    "logger": {
+      "enabled": false
     }
-  },
-  "database": {
-    "mongoUrl": "mongodb://localhost:27017/surf-forecast-test"
-  },
-  "logger": {
-    "enabled": false
   }
 }
