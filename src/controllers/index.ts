@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 
 import { CUSTOM_VALIDATION } from '@src/models/user';
 import logger from '@src/logger';
+import ApiError, { APIError } from '@src/util/errors/api-error';
 
 export abstract class BaseController {
   protected sendCreateUpdateErrorResponse(
@@ -11,10 +12,12 @@ export abstract class BaseController {
   ): void {
     if (error instanceof mongoose.Error.ValidationError) {
       const { code, error: errorMessage } = this.handleClientErrors(error);
-      res.status(code).send({ code, error: errorMessage });
+      res.status(code).send(ApiError.format({ code, message: errorMessage }));
     } else {
       logger.error(error);
-      res.status(500).send({ code: 500, error: 'Someting went wrong' });
+      res
+        .status(500)
+        .send(ApiError.format({ code: 500, message: 'Someting went wrong' }));
     }
   }
 
@@ -30,5 +33,9 @@ export abstract class BaseController {
     } else {
       return { code: 422, error: error.message };
     }
+  }
+
+  protected sendErrorResponse(res: Response, apiError: APIError): Response {
+    return res.status(apiError.code).send(ApiError.format(apiError));
   }
 }

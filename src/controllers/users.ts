@@ -1,6 +1,6 @@
 import { Controller, Post } from '@overnightjs/core';
 import { Response, Request } from 'express';
-
+import mongoose from 'mongoose';
 import { User } from '@src/models/user';
 import { BaseController } from '.';
 import AuthService from '@src/services/auth';
@@ -14,7 +14,11 @@ export class UserController extends BaseController {
       const newUser = await user.save();
       res.status(201).send(newUser);
     } catch (error) {
-      this.sendCreateUpdateErrorResponse(res, error);
+      if (
+        error instanceof Error ||
+        error instanceof mongoose.Error.ValidationError
+      )
+        this.sendCreateUpdateErrorResponse(res, error);
     }
   }
 
@@ -24,12 +28,16 @@ export class UserController extends BaseController {
     const user = await User.findOne({ email });
 
     if (!user)
-      return res.status(401).send({ code: 401, error: 'User not found!' });
+      return this.sendErrorResponse(res, {
+        code: 401,
+        message: 'User not found!',
+      });
 
     if (!(await AuthService.comparePasswords(password, user.password)))
-      return res
-        .status(401)
-        .send({ code: 401, error: 'Password does not match' });
+      return this.sendErrorResponse(res, {
+        code: 401,
+        message: 'Password does not match',
+      });
 
     const token = AuthService.generateToken(user.toJSON());
     return res.status(200).send({ ...user.toJSON(), ...{ token } });
