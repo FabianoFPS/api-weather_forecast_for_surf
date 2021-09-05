@@ -53,7 +53,8 @@ describe('StromGlass Client', () => {
     const lat = -33.792726;
     const lng = 151.289824;
 
-    mockedRequest.get.mockRejectedValue({ message: 'Network Error' });
+    // mockedRequest.get.mockRejectedValue({ message: 'Network Error' });
+    mockedRequest.get.mockRejectedValue(new Error('Network Error'));
 
     const stormGlass = new StormGlass(mockedRequest);
 

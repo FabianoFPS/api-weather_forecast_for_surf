@@ -17,7 +17,7 @@ export abstract class BaseController {
       logger.error(error);
       res
         .status(500)
-        .send(ApiError.format({ code: 500, message: 'Someting went wrong' }));
+        .send(ApiError.format({ code: 500, message: 'Something went wrong' }));
     }
   }
 

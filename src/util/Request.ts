@@ -5,6 +5,8 @@ export interface RequestConfig extends AxiosRequestConfig {}
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface Response<T = any> extends AxiosResponse<T> {}
 
+export interface requestError extends AxiosError {}
+
 export class Request {
   constructor(private request = axios) {}
 
@@ -12,7 +14,7 @@ export class Request {
     return this.request.get<T, Response<T>>(url, config);
   }
 
-  public static isRequestError(error: AxiosError): boolean {
+  public static isRequestError(error: requestError): boolean {
     return !!(error.response && error.response.status);
   }
 }

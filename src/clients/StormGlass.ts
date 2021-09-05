@@ -2,6 +2,7 @@ import config, { IConfig } from 'config';
 
 import { InternalError } from '@src/util/errors/InternalError';
 import * as HTTPUtil from '@src/util/Request';
+import { requestError } from '@src/util/Request';
 
 export interface StormGlassSource {
   noaa: number;
@@ -77,14 +78,18 @@ export class StormGlass {
 
       return this.normalizeResponse(response.data);
     } catch (err) {
-      if (HTTPUtil.Request.isRequestError(err))
+      if (HTTPUtil.Request.isRequestError(err as requestError)) {
+        const error: requestError = err as requestError;
         throw new StormGlassResponseError(
-          `Error: ${JSON.stringify(err.response.data)} Code: ${
-            err.response.status
+          `Error: ${JSON.stringify(error.response?.data)} Code: ${
+            error.response?.status
           }`
         );
+      }
 
-      throw new ClientRequestError(err.message);
+      let message = 'undefined';
+      if (err instanceof Error) message = err.message;
+      throw new ClientRequestError(message);
     }
   }
 

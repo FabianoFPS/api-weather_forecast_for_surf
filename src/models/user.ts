@@ -30,6 +30,7 @@ const schema = new mongoose.Schema(
     toJSON: {
       transform: (_, ret): void => {
         ret.id = ret._id;
+        ret.password = '****';
         delete ret._id;
         delete ret.__v;
       },

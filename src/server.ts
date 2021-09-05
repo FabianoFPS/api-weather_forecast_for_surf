@@ -21,13 +21,13 @@ export class SetupServer extends Server {
 
   public async init(): Promise<void> {
     this.setupExpress();
+    this.setupControllers();
     await this.databaseSetup();
   }
 
   private setupExpress(): void {
     // this.app.use(bodyParser.json());
     this.app.use(json());
-    this.setupControllers();
     this.app.use(
       expressPino({
         logger,
