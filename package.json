@@ -16,7 +16,8 @@
     "style:fix": "prettier --write src/**/*.ts test/**/*.ts",
     "test:functional": "jest --projects ./test --runInBand",
     "test:unit": "jest",
-    "test": "yarn test:unit && yarn test:functional"
+    "test": "yarn test:unit && yarn test:functional",
+    "local-environments": ". untracked_files/environments.sh && echo \"É necessario executar manualemnte: . untracked_files/environments.sh\""
   },
   "engines": {
     "node": "14"
