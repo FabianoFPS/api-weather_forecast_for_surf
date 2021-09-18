@@ -15,8 +15,11 @@ describe('users functional tests', () => {
 
       const response = await global.testRequest.post('/users').send(newUser);
       expect(response.status).toBe(201);
+
+      const user = await User.findOne({ email: response.body.email });
+      const password = user?.password ?? '';
       await expect(
-        AuthService.comparePasswords(newUser.password, response.body.password)
+        AuthService.comparePasswords(newUser.password, password)
       ).resolves.toBeTruthy();
       expect(response.body).toEqual(
         expect.objectContaining({
