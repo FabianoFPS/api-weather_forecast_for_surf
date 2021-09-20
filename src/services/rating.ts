@@ -121,6 +121,7 @@ export class Rating {
       this.beach.position === GeoPosition.E
     );
   }
+
   private isWaveWestAndWindEast(
     wavePosition: GeoPosition,
     windPosition: GeoPosition

@@ -55,8 +55,19 @@ process.on('uncaughtException', exitAppUncaughtException);
 
     const exitSignals: Array<NodeJS.Signals> = ['SIGINT', 'SIGTERM', 'SIGQUIT'];
 
-    exitSignals.map((sig) => {
-      process.on(sig, async () => {
+    // exitSignals.map((exitSignal) => {
+    //   process.on(exitSignal, async () => {
+    //     try {
+    //       await server.close();
+    //       exitAppWithSuccess();
+    //     } catch (error) {
+    //       exitAppWithFailure(error);
+    //     }
+    //   });
+    // });
+
+    for (const exitSignal of exitSignals) {
+      process.on(exitSignal, async () => {
         try {
           await server.close();
           exitAppWithSuccess();
@@ -64,7 +75,7 @@ process.on('uncaughtException', exitAppUncaughtException);
           exitAppWithFailure(error);
         }
       });
-    });
+    }
   } catch (error) {
     exitAppWithFailure(error);
   }
