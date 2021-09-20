@@ -14,14 +14,16 @@ export interface APIErrorResponse extends Omit<APIError, 'codeAsString'> {
 
 export default class ApiError {
   public static format(error: APIError): APIErrorResponse {
-    return {
+    const errorFormated = {
       ...{
         message: error.message,
         code: error.code,
         error: error.codeAsString ?? httpStatusCodes.getStatusText(error.code),
       },
-      ...(error.description && { documentation: error.description }),
+      ...(error.description && { description: error.description }),
       ...(error.documentation && { documentation: error.documentation }),
     };
+
+    return errorFormated;
   }
 }
