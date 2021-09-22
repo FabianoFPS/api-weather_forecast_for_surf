@@ -5,6 +5,7 @@ import apiForecastResponse1BeachFix from '@test/fixtures/api_forecast_response_1
 import { User } from '@src/models/user';
 import { Beach, GeoPosition } from '@src/models/beach';
 import AuthService from '@src/services/auth';
+import CacheUtil from '@src/util/cache';
 
 describe('Beach forecast functional tests', () => {
   const defaultUser = {
@@ -28,7 +29,8 @@ describe('Beach forecast functional tests', () => {
     };
 
     await new Beach(defaultBeach).save();
-    token = AuthService.generateToken(user.toJSON());
+    token = AuthService.generateToken(user.id);
+    CacheUtil.clearAllCache();
   });
 
   it('should return a forecast with just a few times', async () => {

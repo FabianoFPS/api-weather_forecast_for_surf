@@ -41,15 +41,15 @@ export class UserController extends BaseController {
         message: 'Password does not match',
       });
 
-    const token = AuthService.generateToken(user.toJSON());
+    const token = AuthService.generateToken(user.id);
     return res.status(200).send({ ...user.toJSON(), ...{ token } });
   }
 
   @Get('me')
   @Middleware(authMiddleware)
   public async me(req: Request, res: Response): Promise<Response> {
-    const email: string | undefined = req.decoded?.email;
-    const user = await User.findOne({ email });
+    const _id: string | undefined = req.context?.userId;
+    const user = await User.findOne({ _id });
 
     if (!user)
       return this.sendErrorResponse(

@@ -8,12 +8,14 @@ export function authMiddleware(
 ): void {
   const token = req.headers?.['x-access-token'];
   try {
-    const decoded = AuthService.decodeToken(token as string);
-    req.decoded = decoded;
-    // if (typeof token === 'string') req.decoded = AuthService.decodeToken(token);
-
+    const claims = AuthService.decodeToken(token as string);
+    req.context = { userId: claims.sub };
     next();
   } catch (error) {
-    res.status?.(401).send({ code: 401, error: error.message });
+    let message = 'Undefined';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status?.(401).send({ code: 401, error: message });
   }
 }

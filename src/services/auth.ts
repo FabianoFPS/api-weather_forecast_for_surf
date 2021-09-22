@@ -7,6 +7,10 @@ export interface DecodeUser extends Omit<User, '_id'> {
   id: string;
 }
 
+export interface JwtToken {
+  sub: string;
+}
+
 export default class AuthService {
   private static SECRET: string = config.get('App.auth.key');
   private static EXPIRES_IN: number = config.get('App.auth.tokenExpiresIn');
@@ -25,16 +29,13 @@ export default class AuthService {
     return await bcrypt.compare(password, hashedPassword);
   }
 
-  public static generateToken(payload: Record<string, unknown>): string {
-    // const secret: string = config.get('App.auth.key');
-    // const expiresIn: number = config.get('App.auth.tokenExpiresIn');
-    // return jwt.sign(payload, secret, { expiresIn });
-    return jwt.sign(payload, AuthService.SECRET, {
+  public static generateToken(sub: string): string {
+    return jwt.sign({ sub }, AuthService.SECRET, {
       expiresIn: AuthService.EXPIRES_IN,
     });
   }
 
-  public static decodeToken(token: string): DecodeUser {
-    return jwt.verify(token, AuthService.SECRET) as DecodeUser;
+  public static decodeToken(token: string): JwtToken {
+    return jwt.verify(token, AuthService.SECRET) as JwtToken;
   }
 }
